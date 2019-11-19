@@ -60,9 +60,8 @@ Return<void> OdroidThings::getListOf(int8_t mode, getListOf_cb _hidl_cb) {
     hidl_vec<hidl_string> list;
     std::vector<std::string> pinList = mDevice->common_ops.getListOf(mode);
     list.resize(pinList.size());
-    for (size_t i=0; i < pinList.size(); i++) {
+    for (size_t i=0; i < pinList.size(); i++)
         list[i] = pinList[i];
-    }
     _hidl_cb(list);
 
     return Void();
@@ -185,6 +184,29 @@ Return<bool> OdroidThings::pwm_setDutyCycle(int32_t pin, double cycle_rate) {
 Return<bool> OdroidThings::pwm_setFrequency(int32_t pin, double frequency_hz) {
     ALOGD("pin - %d, cycle rate - %f", pin, frequency_hz);
     return mDevice->pwm_ops.setFrequency(pin, frequency_hz);
+}
+
+Return<void> OdroidThings::i2c_open(int32_t nameIdx, uint32_t address, int32_t idx) {
+    mDevice->i2c_ops.open(nameIdx, address, idx);
+
+    return Void();
+}
+
+Return<void> OdroidThings::i2c_close(int32_t idx) {
+    mDevice->i2c_ops.close(idx);
+
+    return Void();
+}
+
+Return<void> OdroidThings::i2c_readRegBuffer(int32_t idx, uint32_t reg, int32_t length, i2c_readRegBuffer_cb _hidl_cb) {
+    Result result = Result::OK;
+
+    _hidl_cb(result, mDevice->i2c_ops.readRegBuffer(idx, reg, length));
+    return Void();
+}
+
+Return<Result> OdroidThings::i2c_writeRegBuffer(int32_t idx, uint32_t reg, const hidl_vec<uint8_t>& buffer, int32_t length) {
+    return (Result)mDevice->i2c_ops.writeRegBuffer(idx, reg, buffer, length);
 }
 
 #if defined(__LP64__)

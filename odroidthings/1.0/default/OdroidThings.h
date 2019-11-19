@@ -80,6 +80,11 @@ public:
     Return<bool> pwm_setDutyCycle(int32_t pin, double cycle_rate) override;
     Return<bool> pwm_setFrequency(int32_t pin, double frequency_hz) override;
 
+    // i2c
+    Return<void> i2c_open(int32_t nameIdx, uint32_t address, int32_t idx) override;
+    Return<void> i2c_close(int32_t idx) override;
+    Return<void> i2c_readRegBuffer(int32_t idx, uint32_t reg, int32_t length, i2c_readRegBuffer_cb _hidl_cb) override;
+    Return<Result> i2c_writeRegBuffer(int32_t idx, uint32_t reg, const hidl_vec<uint8_t>& buffer, int32_t length) override;
 private:
     static things_device_t* openHal();
     things_device_t *mDevice;

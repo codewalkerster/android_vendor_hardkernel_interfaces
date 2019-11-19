@@ -46,4 +46,12 @@ interface IOdroidThings {
     pwm_setEnable(int32_t pin, bool enabled) generates(bool result);
     pwm_setDutyCycle(int32_t pin, double cycle_rate) generates(bool result);
     pwm_setFrequency(int32_t pin, double frequency_hz) generates(bool result);
+
+    /*
+     * I2C Operations
+     */
+    i2c_open(int32_t nameIdx, uint32_t address, int32_t idx);
+    i2c_close(int32_t idx);
+    i2c_readRegBuffer(int32_t idx, uint32_t reg, int32_t length) generates(Result retval, vec<uint8_t> result);
+    i2c_writeRegBuffer(int32_t idx, uint32_t reg, vec<uint8_t> buffer, int32_t length) generates(Result retval);
 };

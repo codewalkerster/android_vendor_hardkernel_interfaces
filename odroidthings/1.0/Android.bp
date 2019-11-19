@@ -14,6 +14,8 @@ hidl_interface {
     types: [
         "Direction",
         "PinMode",
+        "Result",
+        "i2c_t",
         "pin_t",
     ],
     gen_java: true,

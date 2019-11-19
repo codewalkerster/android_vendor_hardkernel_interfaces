@@ -37,8 +37,6 @@ using android::hardware::joinRpcThreadpool;
 using vendor::hardkernel::hardware::odroidthings::V1_0::IOdroidThings;
 using vendor::hardkernel::hardware::odroidthings::V1_0::implementation::OdroidThings;
 
-using android::OK;
-
 // Main service entry point
 int main() {
     ALOGE("odroid things service start");
@@ -47,7 +45,7 @@ int main() {
 
     configureRpcThreadpool(1/*?*/, true);
 
-    if (service->registerAsService() != OK) {
+    if (service->registerAsService() != android::OK) {
         ALOGE("registerAsService failed");
         return 1;
     }
