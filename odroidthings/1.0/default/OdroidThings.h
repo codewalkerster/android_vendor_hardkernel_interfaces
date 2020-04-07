@@ -61,7 +61,7 @@ public:
 
     // V1_0::IOdroidThings methods
     Return<void> getPinNameList(getPinNameList_cb _hidl_cb) override;
-    Return<void> getListOf(int8_t mode, getListOf_cb _hidl_cb) override;
+    Return<void> getListOf(uint8_t mode, getListOf_cb _hidl_cb) override;
 
     // gpio
     Return<void> setDirection(int32_t pin, Direction direction) override;
@@ -85,6 +85,19 @@ public:
     Return<void> i2c_close(int32_t idx) override;
     Return<void> i2c_readRegBuffer(int32_t idx, uint32_t reg, int32_t length, i2c_readRegBuffer_cb _hidl_cb) override;
     Return<Result> i2c_writeRegBuffer(int32_t idx, uint32_t reg, const hidl_vec<uint8_t>& buffer, int32_t length) override;
+
+    // uart
+    Return<void> uart_open(int32_t idx) override;
+    Return<void> uart_close(int32_t idx) override;
+    Return<bool> uart_flush(int32_t idx, int32_t direction) override;
+    Return<bool> uart_sendBreak(int32_t idx, int32_t duration) override;
+    Return<bool> uart_setBaudrate(int32_t idx, int32_t rate) override;
+    Return<bool> uart_setDataSize(int32_t idx, int32_t size) override;
+    Return<bool> uart_setHardwareFlowControl(int32_t idx, int32_t mode) override;
+    Return<bool> uart_setParity(int32_t idx, int32_t mode) override;
+    Return<bool> uart_setStopBits(int32_t idx, int32_t bits) override;
+    Return<void> uart_read(int32_t idx, int32_t length, uart_read_cb _hidl_cb) override;
+    Return<int32_t> uart_write(int32_t idx, const hidl_vec<uint8_t>& buffer, int32_t length) override;
 private:
     static things_device_t* openHal();
     things_device_t *mDevice;

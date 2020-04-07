@@ -74,7 +74,7 @@ Return<void> OdroidThings::getPinNameList(getPinNameList_cb _hidl_cb) {
     return Void();
 }
 
-Return<void> OdroidThings::getListOf(int8_t mode, getListOf_cb _hidl_cb) {
+Return<void> OdroidThings::getListOf(uint8_t mode, getListOf_cb _hidl_cb) {
     hidl_vec<hidl_string> list;
     std::vector<std::string> pinList = mDevice->common_ops.getListOf(mode);
     list.resize(pinList.size());
@@ -225,6 +225,65 @@ Return<void> OdroidThings::i2c_readRegBuffer(int32_t idx, uint32_t reg, int32_t 
 
 Return<Result> OdroidThings::i2c_writeRegBuffer(int32_t idx, uint32_t reg, const hidl_vec<uint8_t>& buffer, int32_t length) {
     return (Result)mDevice->i2c_ops.writeRegBuffer(idx, reg, buffer, length);
+}
+
+Return<void> OdroidThings::uart_open(int32_t idx) {
+    mDevice->uart_ops.open(idx);
+    return Void();
+}
+
+Return<void> OdroidThings::uart_close(int32_t idx ) {
+    mDevice->uart_ops.close(idx);
+    return Void();
+}
+
+Return<bool> OdroidThings::uart_flush(int32_t idx, int32_t direction) {
+    return mDevice->uart_ops.flush(idx, direction);
+}
+
+Return<bool> OdroidThings::uart_sendBreak(int32_t idx, int32_t duration) {
+    return mDevice->uart_ops.sendBreak(idx, duration);
+}
+
+Return<bool> OdroidThings::uart_setBaudrate(int32_t idx, int32_t rate) {
+    return mDevice->uart_ops.setBaudrate(idx, rate);
+}
+
+Return<bool> OdroidThings::uart_setDataSize(int32_t idx, int32_t size) {
+    return mDevice->uart_ops.setDataSize(idx, size);
+}
+
+Return<bool> OdroidThings::uart_setHardwareFlowControl(int32_t idx, int32_t mode) {
+    return mDevice->uart_ops.setHardwareFlowControl(idx, mode);
+}
+
+Return<bool> OdroidThings::uart_setParity(int32_t idx, int32_t mode) {
+    return mDevice->uart_ops.setParity(idx, mode);
+}
+
+Return<bool> OdroidThings::uart_setStopBits(int32_t idx, int32_t bits) {
+    return mDevice->uart_ops.setStopBits(idx, bits);
+}
+
+Return<void> OdroidThings::uart_read(int32_t idx, int32_t length, uart_read_cb _hidl_cb) {
+    hidl_vec<uint8_t> list;
+    std::vector<uint8_t> buffer = mDevice->uart_ops.read(idx, length);
+    int32_t len = buffer.size();
+
+    if (len > 0) {
+        list.resize(len);
+        for(int32_t i = 0; i < len; i++)
+            list[i] = buffer[i];
+        _hidl_cb(len, list);
+    } else {
+        _hidl_cb(len, list);
+    }
+
+    return Void();
+}
+
+Return<int32_t> OdroidThings::uart_write(int32_t idx, const hidl_vec<uint8_t>& buffer, int32_t length) {
+    return mDevice->uart_ops.write(idx, buffer, length);
 }
 
 #if defined(__LP64__)
