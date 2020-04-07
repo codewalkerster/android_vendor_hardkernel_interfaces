@@ -56,3 +56,8 @@ struct i2c_t {
     string name;
     string path;
 };
+
+struct uart_t {
+    string name;
+    string path;
+};
