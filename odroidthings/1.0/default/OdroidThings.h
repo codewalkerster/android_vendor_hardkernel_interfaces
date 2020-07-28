@@ -98,6 +98,20 @@ public:
     Return<bool> uart_setStopBits(int32_t idx, int32_t bits) override;
     Return<void> uart_read(int32_t idx, int32_t length, uart_read_cb _hidl_cb) override;
     Return<int32_t> uart_write(int32_t idx, const hidl_vec<uint8_t>& buffer, int32_t length) override;
+
+    // spi
+    Return<void> spi_open(int32_t idx) override;
+    Return<void> spi_close(int32_t idx) override;
+    Return<bool> spi_setBitJustification(int32_t idx, uint8_t justification) override;
+    Return<bool> spi_setBitsPerWord(int32_t idx, uint8_t bits) override;
+    Return<bool> spi_setMode(int32_t idx, uint8_t mode) override;
+    Return<bool> spi_setCsChange(int32_t idx, bool cs) override;
+    Return<bool> spi_setDelay(int32_t idx, uint16_t delay) override;
+    Return<bool> spi_setFrequency(int32_t idx, uint32_t frequency) override;
+    Return<void> spi_transfer(int32_t idx, const hidl_vec<uint8_t>& txBuffer, int32_t length, spi_transfer_cb _hidl_cb) override;
+    Return<void> spi_read(int32_t idx, int32_t length, spi_read_cb _hidl_cb) override;
+    Return<bool> spi_write(int32_t idx, const hidl_vec<uint8_t>& txBuffer, int32_t length) override;
+
 private:
     static things_device_t* openHal();
     things_device_t *mDevice;

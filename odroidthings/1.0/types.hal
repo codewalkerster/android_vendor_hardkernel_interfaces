@@ -61,3 +61,8 @@ struct uart_t {
     string name;
     string path;
 };
+
+struct spi_t {
+    string name;
+    string path;
+};
