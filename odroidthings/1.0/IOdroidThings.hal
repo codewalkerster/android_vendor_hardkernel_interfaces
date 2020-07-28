@@ -69,4 +69,20 @@ interface IOdroidThings {
     uart_setStopBits(int32_t idx, int32_t bits) generates(bool result);
     uart_read(int32_t idx, int32_t length) generates(int32_t ret, vec<uint8_t> result);
     uart_write(int32_t idx, vec<uint8_t> buffer, int32_t length) generates(int32_t ret);
+
+    /*
+     * SPI Operations
+     */
+    spi_open(int32_t idx);
+    spi_close(int32_t idx);
+    spi_setBitJustification(int32_t idx, uint8_t justification) generates(bool result);
+    spi_setBitsPerWord(int32_t idx, uint8_t bits) generates(bool result);
+    spi_setMode(int32_t idx, uint8_t mode) generates(bool result);
+    spi_setCsChange(int32_t idx, bool cs) generates(bool result);
+    spi_setDelay(int32_t idx, uint16_t delay) generates(bool result);
+    spi_setFrequency(int32_t idx, uint32_t frequency) generates(bool result);
+
+    spi_transfer(int32_t idx,vec<uint8_t> txBuffer, int32_t length) generates(int32_t ret, vec<uint8_t> rxBuffer);
+    spi_read(int32_t idx, int32_t length) generates(int32_t ret, vec<uint8_t> rxBuffer);
+    spi_write(int32_t idx, vec<uint8_t> txBuffer, int32_t length) generates(bool result);
 };

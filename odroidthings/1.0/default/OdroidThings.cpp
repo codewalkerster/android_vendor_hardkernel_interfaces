@@ -286,6 +286,66 @@ Return<int32_t> OdroidThings::uart_write(int32_t idx, const hidl_vec<uint8_t>& b
     return mDevice->uart_ops.write(idx, buffer, length);
 }
 
+Return<void> OdroidThings::spi_open(int32_t idx) {
+    mDevice->spi_ops.open(idx);
+    return Void();
+}
+
+Return<void> OdroidThings::spi_close(int32_t idx) {
+    mDevice->spi_ops.close(idx);
+    return Void();
+}
+
+Return<bool> OdroidThings::spi_setBitJustification(int32_t idx, uint8_t justification) {
+    return mDevice->spi_ops.setBitJustification(idx, justification);
+}
+
+Return<bool> OdroidThings::spi_setBitsPerWord(int32_t idx, uint8_t bits) {
+    return mDevice->spi_ops.setBitsPerWord(idx, bits);
+}
+
+Return<bool> OdroidThings::spi_setMode(int32_t idx, uint8_t mode) {
+    return mDevice->spi_ops.setMode(idx, mode);
+}
+
+Return<bool> OdroidThings::spi_setCsChange(int32_t idx, bool cs) {
+    return mDevice->spi_ops.setCsChange(idx, cs);
+}
+
+Return<bool> OdroidThings::spi_setDelay(int32_t idx, uint16_t delay) {
+    return mDevice->spi_ops.setDelay(idx, delay);
+}
+
+Return<bool> OdroidThings::spi_setFrequency(int32_t idx, uint32_t frequency) {
+    return mDevice->spi_ops.setFrequency(idx, frequency);
+}
+
+Return<void> OdroidThings::spi_transfer(int32_t idx, const hidl_vec<uint8_t>& txBuffer, int32_t length, spi_transfer_cb _hidl_cb) {
+    hidl_vec<uint8_t> rxList;
+    std::vector<uint8_t> rxBuffer = mDevice->spi_ops.transfer(idx, txBuffer, length);
+
+    for(int32_t i = 0; i < length; i++)
+        rxList[i] = rxBuffer[i];
+    _hidl_cb(length, rxList);
+
+    return Void();
+}
+
+Return<void> OdroidThings::spi_read(int32_t idx, int32_t length, spi_read_cb _hidl_cb) {
+    hidl_vec<uint8_t> rxList;
+    std::vector<uint8_t> rxBuffer = mDevice->spi_ops.read(idx, length);
+
+    for(int32_t i = 0; i < length; i++)
+        rxList[i] = rxBuffer[i];
+    _hidl_cb(length, rxList);
+
+    return Void();
+}
+
+Return<bool> OdroidThings::spi_write(int32_t idx, const hidl_vec<uint8_t>& txBuffer, int32_t length) {
+    return mDevice->spi_ops.write(idx, txBuffer, length);
+}
+
 #if defined(__LP64__)
 #define THINGS_PATH "/vendor/lib64/hw/odroidThings.so"
 #else
