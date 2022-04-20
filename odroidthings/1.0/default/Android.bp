@@ -20,6 +20,7 @@ cc_binary {
     name: "vendor.hardkernel.hardware.odroidthings@1.0-service",
     defaults: ["hidl_defaults"],
     init_rc: ["vendor.hardkernel.hardware.odroidthings@1.0-service.rc"],
+    vintf_fragments: ["vendor.hardkernel.hardware.odroidthings@1.0-service.xml"],
     vendor: true,
     relative_install_path:"hw",
     srcs: [
@@ -32,7 +33,6 @@ cc_binary {
         "libutils",
         "libhardware",
         "libhidlbase",
-        "libhidltransport",
         "vendor.hardkernel.hardware.odroidthings@1.0",
     ],
 }

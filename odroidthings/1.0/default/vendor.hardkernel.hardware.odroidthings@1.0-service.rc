@@ -1,6 +1,5 @@
 service vendor.odroidthings /vendor/bin/hw/vendor.hardkernel.hardware.odroidthings@1.0-service
-    interface vendor.hardkernel.odroidthings@1.0::IOdroidThings default
     class hal
     user root
     group root
-    shutdonw critical
+    shutdown critical
