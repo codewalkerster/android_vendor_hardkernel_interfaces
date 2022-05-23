@@ -23,12 +23,7 @@
 #include <hardware/odroidThings.h>
 #include <dlfcn.h>
 
-namespace vendor {
-namespace hardkernel {
-namespace hardware {
-namespace odroidthings {
-namespace V1_0 {
-namespace implementation {
+namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation {
 
 OdroidThings *OdroidThings::sInstance = nullptr;
 
@@ -113,11 +108,11 @@ Return<void> OdroidThings::gpio_setEdgeTriggerType(int32_t pin, int32_t edgeTrig
     return Void();
 }
 
-std::map<int, sp<gpio_callback>> OdroidThings::callbackList = std::map<int, sp<gpio_callback>>();
+std::map<int, sp<Callback>> OdroidThings::callbackList = std::map<int, sp<Callback>>();
 
 Return<void> OdroidThings::gpio_registerCallback(int32_t pin,
-            const sp<gpio_callback>& gpioCallback) {
-    callbackList.insert(std::pair<int, sp<gpio_callback>>(pin, gpioCallback));
+            const sp<Callback>& gpioCallback) {
+    callbackList.insert(std::pair<int, sp<Callback>>(pin, gpioCallback));
     function_t cb;
     switch (pin) {
        CASE_CALLBACK(0);
@@ -167,7 +162,7 @@ Return<void> OdroidThings::gpio_registerCallback(int32_t pin,
 }
 
 Return<void> OdroidThings::gpio_unregisterCallback(int32_t pin) {
-    std::map<int, sp<gpio_callback>>::iterator it;
+    std::map<int, sp<Callback>>::iterator it;
     it = callbackList.find(pin);
     if (it != callbackList.end()) {
         mDevice->gpio_ops.unregisterCallback(pin);
@@ -232,7 +227,7 @@ Return<void> OdroidThings::uart_open(int32_t idx) {
     return Void();
 }
 
-Return<void> OdroidThings::uart_close(int32_t idx ) {
+Return<void> OdroidThings::uart_close(int32_t idx) {
     mDevice->uart_ops.close(idx);
     return Void();
 }
@@ -284,6 +279,32 @@ Return<void> OdroidThings::uart_read(int32_t idx, int32_t length, uart_read_cb _
 
 Return<int32_t> OdroidThings::uart_write(int32_t idx, const hidl_vec<uint8_t>& buffer, int32_t length) {
     return mDevice->uart_ops.write(idx, buffer, length);
+}
+
+Return<void> OdroidThings::uart_registerCallback(int32_t idx,
+        const sp<Callback>& uartCallback) {
+    callbackList.insert(std::pair<int, sp<Callback>>(CALLBACK_OFFSET_UART + idx, uartCallback));
+    function_t cb;
+    switch (CALLBACK_OFFSET_UART + idx) {
+        CASE_CALLBACK(40);
+        CASE_CALLBACK(41);
+        CASE_CALLBACK(42);
+        CASE_CALLBACK(43);
+    }
+    mDevice->uart_ops.registerCallback(idx, cb);
+
+    return Void();
+}
+
+Return<void> OdroidThings::uart_unregisterCallback(int32_t idx) {
+    std::map<int, sp<Callback>>::iterator it;
+    it = callbackList.find(CALLBACK_OFFSET_UART + idx);
+    if (it != callbackList.end()) {
+        mDevice->uart_ops.unregisterCallback(idx);
+        callbackList.erase(it);
+    }
+
+    return Void();
 }
 
 Return<void> OdroidThings::spi_open(int32_t idx) {
@@ -390,9 +411,4 @@ things_device_t* OdroidThings::openHal() {
     return ot_device;
 }
 
-} // namespace implementation
-} // namespace V1_0
-} // namespace odroidthings
-} // namespace hardware
-} // namespace hardkernel
-} // namespace vendor
+} // namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation

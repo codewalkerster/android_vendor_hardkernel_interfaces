@@ -24,6 +24,7 @@
 #include <hardware/odroidThings.h>
 #include <map>
 
+#define CALLBACK_OFFSET_UART    40
 #define INIT_CALLBACKFUNC(__cbList, n) \
     static void __callback##n() { \
         __cbList[(n)]->doCallback(); \
@@ -31,15 +32,10 @@
 #define CALLBACKFUNC(n)  __callback##n
 #define CASE_CALLBACK(n) case (n): cb = &(CALLBACKFUNC(n)); break
 
-namespace vendor {
-namespace hardkernel {
-namespace hardware {
-namespace odroidthings {
-namespace V1_0 {
-namespace implementation {
+namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation {
 
 using ::vendor::hardkernel::hardware::odroidthings::V1_0::IOdroidThings;
-using gpio_callback = ::vendor::hardkernel::hardware::odroidthings::V1_0::IOdroidThingsGpioCallback;
+using Callback = ::vendor::hardkernel::hardware::odroidthings::V1_0::IOdroidThingsCallback;
 
 using ::hardware::hardkernel::odroidthings::things_device_t;
 using ::hardware::hardkernel::odroidthings::things_module_t;
@@ -70,7 +66,7 @@ public:
     Return<void> gpio_setActiveType(int32_t pin, int32_t activeType) override;
     Return<void> gpio_setEdgeTriggerType(int32_t pin, int32_t edgeTriggerType) override;
     Return<void> gpio_registerCallback(int32_t pin,
-            const sp<gpio_callback>& gpioCallback) override;
+            const sp<Callback>& gpioCallback) override;
     Return<void> gpio_unregisterCallback(int32_t pin) override;
 
     // pwm
@@ -98,6 +94,9 @@ public:
     Return<bool> uart_setStopBits(int32_t idx, int32_t bits) override;
     Return<void> uart_read(int32_t idx, int32_t length, uart_read_cb _hidl_cb) override;
     Return<int32_t> uart_write(int32_t idx, const hidl_vec<uint8_t>& buffer, int32_t length) override;
+    Return<void> uart_registerCallback(int32_t idx,
+            const sp<Callback>& uartCallback) override;
+    Return<void> uart_unregisterCallback(int32_t idx) override;
 
     // spi
     Return<void> spi_open(int32_t idx) override;
@@ -116,7 +115,7 @@ private:
     static things_device_t* openHal();
     things_device_t *mDevice;
     static OdroidThings* sInstance;
-    static std::map<int, sp<gpio_callback>> callbackList;
+    static std::map<int, sp<Callback>> callbackList;
 
     // call back functions for gpio pins
     INIT_CALLBACKFUNC(callbackList, 0);
@@ -159,12 +158,13 @@ private:
     INIT_CALLBACKFUNC(callbackList, 37);
     INIT_CALLBACKFUNC(callbackList, 38);
     INIT_CALLBACKFUNC(callbackList, 39);
+
+    // call back functions for Uart pins
+    INIT_CALLBACKFUNC(callbackList, 40);
+    INIT_CALLBACKFUNC(callbackList, 41);
+    INIT_CALLBACKFUNC(callbackList, 42);
+    INIT_CALLBACKFUNC(callbackList, 43);
 };
 
-} // namespace implementation
-} // namespace V1_0
-} // namespace odroidthings
-} // namespace hardware
-} // namespace hardkernel
-} // namespace vendor
+} // namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation
 #endif // VENDOR_HARDKERNEL_HARDWARE_ODROIDTHINGS_V1_0_H
