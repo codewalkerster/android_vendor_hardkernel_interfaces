@@ -3,6 +3,7 @@
 hidl_interface {
     name: "vendor.hardkernel.hardware.odroidthings@1.0",
     root: "vendor.hardkernel.hardware",
+    system_ext_specific: true,
     srcs: [
         "types.hal",
         "IOdroidThings.hal",
@@ -11,15 +12,6 @@ hidl_interface {
     interfaces: [
         "android.hidl.base@1.0",
     ],
-    types: [
-        "Direction",
-        "PinMode",
-        "Result",
-        "i2c_t",
-        "pin_t",
-        "uart_t",
-    ],
     gen_java: true,
     gen_java_constants: true,
 }
-
