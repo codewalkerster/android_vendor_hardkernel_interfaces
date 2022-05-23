@@ -6,7 +6,7 @@ hidl_interface {
     srcs: [
         "types.hal",
         "IOdroidThings.hal",
-        "IOdroidThingsGpioCallback.hal",
+        "IOdroidThingsCallback.hal",
     ],
     interfaces: [
         "android.hidl.base@1.0",
