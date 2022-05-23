@@ -18,6 +18,6 @@
 
 package vendor.hardkernel.hardware.odroidthings@1.0;
 
-interface IOdroidThingsGpioCallback {
+interface IOdroidThingsCallback {
     oneway doCallback();
 };

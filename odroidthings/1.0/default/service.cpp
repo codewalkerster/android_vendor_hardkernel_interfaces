@@ -25,8 +25,6 @@
 
 #include "OdroidThings.h"
 
-//#include <vendor/hardkernel/hardware/odroidthings/1.0/IOdroidThings.h>
-
 using android::sp;
 
 // libhwbinder:

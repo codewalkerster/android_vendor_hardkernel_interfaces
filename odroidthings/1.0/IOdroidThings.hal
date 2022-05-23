@@ -18,7 +18,7 @@
 
 package vendor.hardkernel.hardware.odroidthings@1.0;
 
-import IOdroidThingsGpioCallback;
+import IOdroidThingsCallback;
 
 interface IOdroidThings {
     /*
@@ -35,7 +35,7 @@ interface IOdroidThings {
     gpio_getValue(int32_t pin) generates(bool result);
     gpio_setActiveType(int32_t pin, int32_t activeType);
     gpio_setEdgeTriggerType(int32_t pin, int32_t edgeTriggerType);
-    gpio_registerCallback(int32_t pin, IOdroidThingsGpioCallback callback);
+    gpio_registerCallback(int32_t pin, IOdroidThingsCallback callback);
     gpio_unregisterCallback(int32_t pin);
 
     /*
@@ -69,6 +69,8 @@ interface IOdroidThings {
     uart_setStopBits(int32_t idx, int32_t bits) generates(bool result);
     uart_read(int32_t idx, int32_t length) generates(int32_t ret, vec<uint8_t> result);
     uart_write(int32_t idx, vec<uint8_t> buffer, int32_t length) generates(int32_t ret);
+    uart_registerCallback(int32_t idx, IOdroidThingsCallback callback);
+    uart_unregisterCallback(int32_t idx);
 
     /*
      * SPI Operations
