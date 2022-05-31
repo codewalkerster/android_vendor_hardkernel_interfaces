@@ -344,10 +344,14 @@ Return<bool> OdroidThings::spi_setFrequency(int32_t idx, uint32_t frequency) {
 Return<void> OdroidThings::spi_transfer(int32_t idx, const hidl_vec<uint8_t>& txBuffer, int32_t length, spi_transfer_cb _hidl_cb) {
     hidl_vec<uint8_t> rxList;
     std::vector<uint8_t> rxBuffer = mDevice->spi_ops.transfer(idx, txBuffer, length);
+    int32_t len = rxBuffer.size();
 
-    for(int32_t i = 0; i < length; i++)
-        rxList[i] = rxBuffer[i];
-    _hidl_cb(length, rxList);
+    if (len > 0) {
+        rxList.resize(len);
+        for(int32_t i = 0; i < len; i++)
+            rxList[i] = rxBuffer[i];
+    }
+    _hidl_cb(len, rxList);
 
     return Void();
 }
@@ -355,10 +359,14 @@ Return<void> OdroidThings::spi_transfer(int32_t idx, const hidl_vec<uint8_t>& tx
 Return<void> OdroidThings::spi_read(int32_t idx, int32_t length, spi_read_cb _hidl_cb) {
     hidl_vec<uint8_t> rxList;
     std::vector<uint8_t> rxBuffer = mDevice->spi_ops.read(idx, length);
+    int32_t len = rxBuffer.size();
 
-    for(int32_t i = 0; i < length; i++)
-        rxList[i] = rxBuffer[i];
-    _hidl_cb(length, rxList);
+    if (len > 0) {
+        rxList.resize(len);
+        for(int32_t i = 0; i < len; i++)
+            rxList[i] = rxBuffer[i];
+    }
+    _hidl_cb(len, rxList);
 
     return Void();
 }
