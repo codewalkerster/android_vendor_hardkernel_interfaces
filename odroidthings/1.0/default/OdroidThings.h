@@ -32,7 +32,12 @@
 #define CALLBACKFUNC(n)  __callback##n
 #define CASE_CALLBACK(n) case (n): cb = &(CALLBACKFUNC(n)); break
 
-namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation {
+namespace vendor {
+namespace hardkernel {
+namespace hardware {
+namespace odroidthings {
+namespace V1_0 {
+namespace implementation {
 
 using ::vendor::hardkernel::hardware::odroidthings::V1_0::IOdroidThings;
 using Callback = ::vendor::hardkernel::hardware::odroidthings::V1_0::IOdroidThingsCallback;
@@ -166,5 +171,10 @@ private:
     INIT_CALLBACKFUNC(callbackList, 43);
 };
 
-} // namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation
+} // namespace implementation
+} // namespace V1_0
+} // namespace odroidthings
+} // namespace hardware
+} // namespace hardkernel
+} // namespace vendor
 #endif // VENDOR_HARDKERNEL_HARDWARE_ODROIDTHINGS_V1_0_H

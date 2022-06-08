@@ -23,7 +23,12 @@
 #include <hardware/odroidThings.h>
 #include <dlfcn.h>
 
-namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation {
+namespace vendor {
+namespace hardkernel {
+namespace hardware {
+namespace odroidthings {
+namespace V1_0 {
+namespace implementation {
 
 OdroidThings *OdroidThings::sInstance = nullptr;
 
@@ -419,4 +424,9 @@ things_device_t* OdroidThings::openHal() {
     return ot_device;
 }
 
-} // namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation
+} // namespace implementation
+} // namespace V1_0
+} // namespace odroidthings
+} // namespace hardware
+} // namespace hardkernel
+} // namespace vendor
