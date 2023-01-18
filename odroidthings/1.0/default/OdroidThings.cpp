@@ -211,6 +211,13 @@ Return<void> OdroidThings::i2c_close(int32_t idx) {
     return Void();
 }
 
+Return<void> OdroidThings::i2c_read(int32_t idx, int32_t length, i2c_read_cb _hidl_cb) {
+    Result result = Result::OK;
+
+    _hidl_cb(result, mDevice->i2c_ops.read(idx, length));
+    return Void();
+}
+
 Return<void> OdroidThings::i2c_readRegBuffer(int32_t idx, uint32_t reg, int32_t length, i2c_readRegBuffer_cb _hidl_cb) {
     Result result = Result::OK;
 
@@ -218,8 +225,34 @@ Return<void> OdroidThings::i2c_readRegBuffer(int32_t idx, uint32_t reg, int32_t 
     return Void();
 }
 
+Return<void> OdroidThings::i2c_readRegWord(int32_t idx, uint32_t reg, i2c_readRegWord_cb _hidl_cb) {
+    Result result = Result::OK;
+
+    _hidl_cb(result, mDevice->i2c_ops.readRegWord(idx, reg));
+    return Void();
+}
+
+Return<void> OdroidThings::i2c_readRegByte(int32_t idx, uint32_t reg, i2c_readRegByte_cb _hidl_cb) {
+    Result result = Result::OK;
+
+    _hidl_cb(result, mDevice->i2c_ops.readRegByte(idx, reg));
+    return Void();
+}
+
+Return<Result> OdroidThings::i2c_write(int32_t idx, const hidl_vec<uint8_t>& buffer, int32_t length) {
+    return (Result)mDevice->i2c_ops.write(idx, buffer, length);
+}
+
 Return<Result> OdroidThings::i2c_writeRegBuffer(int32_t idx, uint32_t reg, const hidl_vec<uint8_t>& buffer, int32_t length) {
     return (Result)mDevice->i2c_ops.writeRegBuffer(idx, reg, buffer, length);
+}
+
+Return<Result> OdroidThings::i2c_writeRegWord(int32_t idx, uint32_t reg, const uint16_t buffer) {
+    return (Result)mDevice->i2c_ops.writeRegWord(idx, reg, buffer);
+}
+
+Return<Result> OdroidThings::i2c_writeRegByte(int32_t idx, uint32_t reg, const uint8_t buffer) {
+    return (Result)mDevice->i2c_ops.writeRegByte(idx, reg, buffer);
 }
 
 Return<void> OdroidThings::uart_open(int32_t idx) {

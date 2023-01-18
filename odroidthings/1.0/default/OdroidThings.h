@@ -79,8 +79,14 @@ public:
     // i2c
     Return<void> i2c_open(int32_t nameIdx, uint32_t address, int32_t idx) override;
     Return<void> i2c_close(int32_t idx) override;
+    Return<void> i2c_read(int32_t idx, int32_t length, i2c_read_cb _hidl_cb) override;
     Return<void> i2c_readRegBuffer(int32_t idx, uint32_t reg, int32_t length, i2c_readRegBuffer_cb _hidl_cb) override;
+    Return<void> i2c_readRegWord(int32_t idx, uint32_t reg, i2c_readRegWord_cb _hidl_cb) override;
+    Return<void> i2c_readRegByte(int32_t idx, uint32_t reg, i2c_readRegByte_cb _hidl_cb) override;
+    Return<Result> i2c_write(int32_t idx, const hidl_vec<uint8_t>& buffer, int32_t length) override;
     Return<Result> i2c_writeRegBuffer(int32_t idx, uint32_t reg, const hidl_vec<uint8_t>& buffer, int32_t length) override;
+    Return<Result> i2c_writeRegWord(int32_t idx, uint32_t reg, const uint16_t buffer) override;
+    Return<Result> i2c_writeRegByte(int32_t idx, uint32_t reg, const uint8_t buffer) override;
 
     // uart
     Return<void> uart_open(int32_t idx) override;
