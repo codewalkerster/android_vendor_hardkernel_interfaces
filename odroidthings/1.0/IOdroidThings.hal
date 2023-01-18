@@ -52,8 +52,14 @@ interface IOdroidThings {
      */
     i2c_open(int32_t nameIdx, uint32_t address, int32_t idx);
     i2c_close(int32_t idx);
+    i2c_read(int32_t idx, int32_t length) generates(Result retval, vec<uint8_t> result);
     i2c_readRegBuffer(int32_t idx, uint32_t reg, int32_t length) generates(Result retval, vec<uint8_t> result);
+    i2c_readRegWord(int32_t idx, uint32_t reg) generates(Result retval, uint16_t result);
+    i2c_readRegByte(int32_t idx, uint32_t reg) generates(Result retval, uint8_t result);
+    i2c_write(int32_t idx, vec<uint8_t> buffer, int32_t length) generates(Result retval);
     i2c_writeRegBuffer(int32_t idx, uint32_t reg, vec<uint8_t> buffer, int32_t length) generates(Result retval);
+    i2c_writeRegWord(int32_t idx, uint32_t reg, uint16_t buffer) generates(Result retval);
+    i2c_writeRegByte(int32_t idx, uint32_t reg, uint8_t buffer) generates(Result retval);
 
     /*
      * UART Operations
