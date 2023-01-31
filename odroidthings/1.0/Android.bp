@@ -17,6 +17,7 @@ hidl_interface {
         "Result",
         "i2c_t",
         "pin_t",
+        "spi_t",
         "uart_t",
     ],
     gen_java: true,
