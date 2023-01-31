@@ -41,7 +41,7 @@ int main() {
     //Create an instance of our service class
     sp<IOdroidThings> service = OdroidThings::getInstance();
 
-    configureRpcThreadpool(1/*?*/, true);
+    configureRpcThreadpool(8/*?*/, true);
 
     if (service->registerAsService() != android::OK) {
         ALOGE("registerAsService failed");
