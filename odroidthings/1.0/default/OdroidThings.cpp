@@ -84,6 +84,18 @@ Return<void> OdroidThings::getListOf(uint8_t mode, getListOf_cb _hidl_cb) {
     return Void();
 }
 
+Return<void> OdroidThings::gpio_open(int32_t pin) {
+    mDevice->gpio_ops.open(pin);
+
+    return Void();
+}
+
+Return<void> OdroidThings::gpio_close(int32_t pin) {
+    mDevice->gpio_ops.close(pin);
+
+    return Void();
+}
+
 Return<void> OdroidThings::setDirection(int32_t pin, Direction direction) {
     mDevice->gpio_ops.setDirection(pin, (direction_t) direction);
 

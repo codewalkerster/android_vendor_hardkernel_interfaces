@@ -97,6 +97,8 @@ public:
     Return<void> getListOf(uint8_t mode, getListOf_cb _hidl_cb) override;
 
     // gpio
+    Return<void> gpio_open(int32_t pin) override;
+    Return<void> gpio_close(int32_t pin) override;
     Return<void> setDirection(int32_t pin, Direction direction) override;
     Return<void> gpio_setValue(int32_t pin, bool value) override;
     Return<bool> gpio_getValue(int32_t pin) override;

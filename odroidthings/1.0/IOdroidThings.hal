@@ -30,6 +30,8 @@ interface IOdroidThings {
     /*
      * GPIO Operations
      */
+    gpio_open(int32_t pin);
+    gpio_close(int32_t pin);
     setDirection(int32_t pin, Direction direction);
     gpio_setValue(int32_t pin, bool value);
     gpio_getValue(int32_t pin) generates(bool result);
