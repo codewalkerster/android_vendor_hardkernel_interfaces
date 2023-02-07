@@ -19,7 +19,6 @@
 #define LOG_TAG "vendor.hardkernel.hardware.odroidthings@1.0-hal"
 
 #include <OdroidThings.h>
-#include <cutils/properties.h>
 #include <dlfcn.h>
 #include <hardware/odroidThings.h>
 #include <log/log.h>
@@ -39,9 +38,6 @@ OdroidThings::OdroidThings() : mDevice(nullptr) {
     if (!mDevice) {
         ALOGE("Can't open HAL module");
     }
-
-    tickDelta = property_get_int64("persist.android.things.gpio.callback.delta",
-            CALLBACK_IGNORE_DELTA);
 }
 
 OdroidThings::~OdroidThings() {
@@ -131,65 +127,37 @@ Return<void> OdroidThings::gpio_setEdgeTriggerType(int32_t pin, int32_t edgeTrig
 
 std::map<int, sp<Callback>> OdroidThings::callbackList = std::map<int, sp<Callback>>();
 
-long OdroidThings::tickDelta = NULL;
-
-INIT_CALLBACK_TICK(3);
-INIT_CALLBACK_TICK(5);
-INIT_CALLBACK_TICK(7);
-INIT_CALLBACK_TICK(8);
-INIT_CALLBACK_TICK(10);
-INIT_CALLBACK_TICK(11);
-INIT_CALLBACK_TICK(12);
-INIT_CALLBACK_TICK(13);
-INIT_CALLBACK_TICK(15);
-INIT_CALLBACK_TICK(16);
-INIT_CALLBACK_TICK(18);
-INIT_CALLBACK_TICK(19);
-INIT_CALLBACK_TICK(21);
-INIT_CALLBACK_TICK(22);
-INIT_CALLBACK_TICK(23);
-INIT_CALLBACK_TICK(24);
-INIT_CALLBACK_TICK(26);
-INIT_CALLBACK_TICK(27);
-INIT_CALLBACK_TICK(28);
-INIT_CALLBACK_TICK(29);
-INIT_CALLBACK_TICK(31);
-INIT_CALLBACK_TICK(32);
-INIT_CALLBACK_TICK(33);
-INIT_CALLBACK_TICK(35);
-INIT_CALLBACK_TICK(36);
-
 Return<void> OdroidThings::gpio_registerCallback(int32_t pin,
             const sp<Callback>& gpioCallback) {
     callbackList.insert(std::pair<int, sp<Callback>>(pin, gpioCallback));
 
     function_t cb;
     switch (pin) {
-       CASE_GPIO_CALLBACK(3);
-       CASE_GPIO_CALLBACK(5);
-       CASE_GPIO_CALLBACK(7);
-       CASE_GPIO_CALLBACK(8);
-       CASE_GPIO_CALLBACK(10);
-       CASE_GPIO_CALLBACK(11);
-       CASE_GPIO_CALLBACK(12);
-       CASE_GPIO_CALLBACK(13);
-       CASE_GPIO_CALLBACK(15);
-       CASE_GPIO_CALLBACK(16);
-       CASE_GPIO_CALLBACK(18);
-       CASE_GPIO_CALLBACK(19);
-       CASE_GPIO_CALLBACK(21);
-       CASE_GPIO_CALLBACK(22);
-       CASE_GPIO_CALLBACK(23);
-       CASE_GPIO_CALLBACK(24);
-       CASE_GPIO_CALLBACK(26);
-       CASE_GPIO_CALLBACK(27);
-       CASE_GPIO_CALLBACK(28);
-       CASE_GPIO_CALLBACK(29);
-       CASE_GPIO_CALLBACK(31);
-       CASE_GPIO_CALLBACK(32);
-       CASE_GPIO_CALLBACK(33);
-       CASE_GPIO_CALLBACK(35);
-       CASE_GPIO_CALLBACK(36);
+       CASE_CALLBACK(3);
+       CASE_CALLBACK(5);
+       CASE_CALLBACK(7);
+       CASE_CALLBACK(8);
+       CASE_CALLBACK(10);
+       CASE_CALLBACK(11);
+       CASE_CALLBACK(12);
+       CASE_CALLBACK(13);
+       CASE_CALLBACK(15);
+       CASE_CALLBACK(16);
+       CASE_CALLBACK(18);
+       CASE_CALLBACK(19);
+       CASE_CALLBACK(21);
+       CASE_CALLBACK(22);
+       CASE_CALLBACK(23);
+       CASE_CALLBACK(24);
+       CASE_CALLBACK(26);
+       CASE_CALLBACK(27);
+       CASE_CALLBACK(28);
+       CASE_CALLBACK(29);
+       CASE_CALLBACK(31);
+       CASE_CALLBACK(32);
+       CASE_CALLBACK(33);
+       CASE_CALLBACK(35);
+       CASE_CALLBACK(36);
     }
 
     mDevice->gpio_ops.registerCallback(pin, cb);
@@ -355,10 +323,10 @@ Return<void> OdroidThings::uart_registerCallback(int32_t idx,
     callbackList.insert(std::pair<int, sp<Callback>>(CALLBACK_OFFSET_UART + idx, uartCallback));
     function_t cb;
     switch (CALLBACK_OFFSET_UART + idx) {
-        CASE_UART_CALLBACK(40);
-        CASE_UART_CALLBACK(41);
-        CASE_UART_CALLBACK(42);
-        CASE_UART_CALLBACK(43);
+        CASE_CALLBACK(40);
+        CASE_CALLBACK(41);
+        CASE_CALLBACK(42);
+        CASE_CALLBACK(43);
     }
     mDevice->uart_ops.registerCallback(idx, cb);
 
