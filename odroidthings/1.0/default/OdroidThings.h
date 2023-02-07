@@ -22,48 +22,19 @@
 #include <vendor/hardkernel/hardware/odroidthings/1.0/IOdroidThings.h>
 
 #include <hardware/odroidThings.h>
-
-#include <ctime>
-#include <log/log.h>
 #include <map>
 #include <thread>
 
 #define CALLBACK_OFFSET_UART    40
-// 30ms
-#define CALLBACK_IGNORE_DELTA    10000000
 
-#define INIT_GPIO_CALLBACKFUNC(__cbList,  n) \
-    static struct timespec __lastTick##n; \
+#define INIT_CALLBACKFUNC(__cbList,  n) \
     static void __callback_##n() { \
-        struct timespec __currentTick; \
-        clock_gettime(CLOCK_MONOTONIC, &__currentTick); \
-        auto delta = ((__currentTick.tv_sec - __lastTick##n.tv_sec) * 1000000000) \
-        + (__currentTick.tv_nsec - __lastTick##n.tv_nsec); \
-        if (delta > tickDelta) { \
-            __lastTick##n.tv_sec = __currentTick.tv_sec; \
-            __lastTick##n.tv_nsec = __currentTick.tv_nsec; \
-            __cbList[(n)]->doCallback(); \
-        } \
+        __cbList[(n)]->doCallback(); \
     }
-
-#define INIT_UART_CALLBACKFUNC(__cbList,  n) \
-    static void __callback_##n() { \
-            __cbList[(n)]->doCallback(); \
-    }
-
-#define INIT_CALLBACK_TICK(n) \
-    struct timespec OdroidThings::__lastTick##n
 
 #define CALLBACKFUNC(n)  __callback_##n
 
-#define CASE_GPIO_CALLBACK(n) \
-    case (n): { \
-                  clock_gettime(CLOCK_MONOTONIC, &__lastTick##n); \
-                  cb = &(CALLBACKFUNC(n)); \
-              } \
-              break
-
-#define CASE_UART_CALLBACK(n) \
+#define CASE_CALLBACK(n) \
     case (n): { \
                   cb = &(CALLBACKFUNC(n)); \
               } \
@@ -161,40 +132,39 @@ private:
     things_device_t *mDevice;
     static OdroidThings* sInstance;
     static std::map<int, sp<Callback>> callbackList;
-    static long tickDelta;
 
     // call back functions for gpio pins
-    INIT_GPIO_CALLBACKFUNC(callbackList, 3);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 5);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 7);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 8);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 10);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 11);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 12);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 13);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 15);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 16);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 18);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 19);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 21);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 22);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 23);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 24);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 26);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 27);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 28);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 29);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 31);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 32);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 33);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 35);
-    INIT_GPIO_CALLBACKFUNC(callbackList, 36);
+    INIT_CALLBACKFUNC(callbackList, 3);
+    INIT_CALLBACKFUNC(callbackList, 5);
+    INIT_CALLBACKFUNC(callbackList, 7);
+    INIT_CALLBACKFUNC(callbackList, 8);
+    INIT_CALLBACKFUNC(callbackList, 10);
+    INIT_CALLBACKFUNC(callbackList, 11);
+    INIT_CALLBACKFUNC(callbackList, 12);
+    INIT_CALLBACKFUNC(callbackList, 13);
+    INIT_CALLBACKFUNC(callbackList, 15);
+    INIT_CALLBACKFUNC(callbackList, 16);
+    INIT_CALLBACKFUNC(callbackList, 18);
+    INIT_CALLBACKFUNC(callbackList, 19);
+    INIT_CALLBACKFUNC(callbackList, 21);
+    INIT_CALLBACKFUNC(callbackList, 22);
+    INIT_CALLBACKFUNC(callbackList, 23);
+    INIT_CALLBACKFUNC(callbackList, 24);
+    INIT_CALLBACKFUNC(callbackList, 26);
+    INIT_CALLBACKFUNC(callbackList, 27);
+    INIT_CALLBACKFUNC(callbackList, 28);
+    INIT_CALLBACKFUNC(callbackList, 29);
+    INIT_CALLBACKFUNC(callbackList, 31);
+    INIT_CALLBACKFUNC(callbackList, 32);
+    INIT_CALLBACKFUNC(callbackList, 33);
+    INIT_CALLBACKFUNC(callbackList, 35);
+    INIT_CALLBACKFUNC(callbackList, 36);
 
     // call back functions for Uart pins
-    INIT_UART_CALLBACKFUNC(callbackList, 40);
-    INIT_UART_CALLBACKFUNC(callbackList, 41);
-    INIT_UART_CALLBACKFUNC(callbackList, 42);
-    INIT_UART_CALLBACKFUNC(callbackList, 43);
+    INIT_CALLBACKFUNC(callbackList, 40);
+    INIT_CALLBACKFUNC(callbackList, 41);
+    INIT_CALLBACKFUNC(callbackList, 42);
+    INIT_CALLBACKFUNC(callbackList, 43);
 };
 
 } // namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation
