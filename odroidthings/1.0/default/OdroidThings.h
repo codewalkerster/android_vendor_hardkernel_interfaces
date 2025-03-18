@@ -165,6 +165,12 @@ private:
     INIT_CALLBACKFUNC(callbackList, 41);
     INIT_CALLBACKFUNC(callbackList, 42);
     INIT_CALLBACKFUNC(callbackList, 43);
+    INIT_CALLBACKFUNC(callbackList, 44);
+    INIT_CALLBACKFUNC(callbackList, 45);
+    INIT_CALLBACKFUNC(callbackList, 46);
+    INIT_CALLBACKFUNC(callbackList, 47);
+    INIT_CALLBACKFUNC(callbackList, 48);
+    INIT_CALLBACKFUNC(callbackList, 49);
 };
 
 } // namespace vendor::hardkernel::hardware::odroidthings::V1_0::implementation

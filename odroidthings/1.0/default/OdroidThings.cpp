@@ -322,6 +322,12 @@ Return<void> OdroidThings::uart_registerCallback(int32_t idx,
         CASE_CALLBACK(41);
         CASE_CALLBACK(42);
         CASE_CALLBACK(43);
+        CASE_CALLBACK(44);
+        CASE_CALLBACK(45);
+        CASE_CALLBACK(46);
+        CASE_CALLBACK(47);
+        CASE_CALLBACK(48);
+        CASE_CALLBACK(49);
     }
     mDevice->uart_ops.registerCallback(idx, cb);
 
