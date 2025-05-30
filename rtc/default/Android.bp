@@ -1,0 +1,17 @@
+cc_binary {
+    name: "vendor.hardkernel.hardware.rtc-service.default",
+    relative_install_path: "hw",
+    init_rc: ["vendor.hardkernel.hardware.rtc-service.rc"],
+    vintf_fragments: ["vendor.hardkernel.hardware.rtc-service.xml"],
+    vendor: true,
+    shared_libs: [
+        "libbase",
+        "liblog",
+        "libbinder_ndk",
+        "vendor.hardkernel.hardware.rtc-V1-ndk",
+    ],
+    srcs: [
+        "Rtc.cpp",
+        "main.cpp",
+    ],
+}

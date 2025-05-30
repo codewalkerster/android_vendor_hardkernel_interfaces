@@ -1,0 +1,12 @@
+cc_binary {
+    name: "vendor.hardkernel.hardware.rtc_test",
+    vendor: true,
+    relative_install_path: "hw",
+    srcs: [
+        "rtc_test.cpp",
+    ],
+    shared_libs: [
+        "libbinder_ndk",
+        "vendor.hardkernel.hardware.rtc-V1-ndk",
+    ],
+}

@@ -1,0 +1,8 @@
+on init
+    start vendor.hardkernel.hardware.rtc-service
+
+service vendor.hardkernel.hardware.rtc-service /vendor/bin/hw/vendor.hardkernel.hardware.rtc-service
+    interface aidl vendor.hardkernel.hardware.rtc.IRtc/default
+    class hal
+    user system
+    group system

@@ -1,0 +1,15 @@
+aidl_interface {
+    name: "vendor.hardkernel.hardware.rtc",
+    vendor_available: true,
+    srcs: [
+        "vendor/hardkernel/hardware/rtc/*.aidl",
+    ],
+    owner: "hardkernel",
+    stability: "vintf",
+    backend: {
+        java: {
+            sdk_version: "module_current",
+            enabled: true,
+        },
+    },
+}
