@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 The Android Open Source Project
+ * Copyright (C) 2025 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,11 +53,11 @@ static int write_sys(const char* path, long value) {
     }
 }
 
-::ndk::ScopedAStatus Rtc::getTime(std::string *_aidl_return) {
+ScopedAStatus Rtc::getTime(int64_t* _aidl_return) {
     int fd = open(RTC_PATH, O_RDONLY);
     if (fd < 0) {
         ALOGE("Failed to open %s\n", RTC_PATH);
-        return ::ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_SERVICE_SPECIFIC));
+        return ScopedAStatus(AStatus_fromExceptionCode(EX_SERVICE_SPECIFIC));
     }
 
     struct rtc_time rtc_tm;
@@ -65,7 +65,7 @@ static int write_sys(const char* path, long value) {
     close (fd);
     if (retval == -1) {
         ALOGE("Failed RTC_RD_TIME ioctl");
-        return ::ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_SERVICE_SPECIFIC));
+        return ScopedAStatus(AStatus_fromExceptionCode(EX_SERVICE_SPECIFIC));
     }
 
 	struct tm time;
@@ -83,23 +83,17 @@ static int write_sys(const char* path, long value) {
 		   rtc_tm.tm_mday, rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
 #endif
 
-	char buf[20];
-#ifdef __aarch64__
-	retval = sprintf(buf, "%ld\n", now);
-#else
-	retval = sprintf(buf, "%lld\n", now);
-#endif
-	*_aidl_return = buf;
+	*_aidl_return = now;
 
-    return ::ndk::ScopedAStatus::ok();
+    return ScopedAStatus::ok();
 }
 
-::ndk::ScopedAStatus Rtc::setWakeupAlarm(int64_t triggerAtMillis) {
+ScopedAStatus Rtc::setWakeupAlarm(int64_t triggerAtMillis) {
     if (write_sys(WAKEALARM_PATH, triggerAtMillis) < 0) {
-        return ::ndk::ScopedAStatus::fromExceptionCodeWithMessage(EX_ILLEGAL_ARGUMENT,
+        return ScopedAStatus::fromExceptionCodeWithMessage(EX_ILLEGAL_ARGUMENT,
                 "Failed to set wakeup alarm");
     }
-    return ::ndk::ScopedAStatus::ok();
+    return ScopedAStatus::ok();
 }
 
 }  // namespace rtc

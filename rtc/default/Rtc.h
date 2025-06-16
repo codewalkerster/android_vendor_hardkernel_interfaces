@@ -19,6 +19,8 @@
 #include <aidl/vendor/hardkernel/hardware/rtc/BnRtc.h>
 #define LOG_TAG "vendor.hardkernel.hardware.rtc-service"
 
+using namespace ::ndk;
+
 namespace aidl {
 namespace vendor {
 namespace hardkernel {
@@ -26,8 +28,8 @@ namespace hardware {
 namespace rtc {
 
 class Rtc : public BnRtc {
-    ::ndk::ScopedAStatus getTime(std::string *_aidl_return) override;
-    ::ndk::ScopedAStatus setWakeupAlarm(int64_t triggerAtMillis) override;
+    ScopedAStatus getTime(int64_t* _aidl_return) override;
+    ScopedAStatus setWakeupAlarm(int64_t triggerAtMillis) override;
 };
 
 }  // namespace rtc 

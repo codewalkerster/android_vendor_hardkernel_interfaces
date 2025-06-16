@@ -19,6 +19,6 @@
 package vendor.hardkernel.hardware.rtc;
 @VintfStability
 interface IRtc {
-  String getTime();
+  long getTime();
   void setWakeupAlarm(in long triggerAtMillis);
 }
